@@ -1,20 +1,38 @@
 import dotenv from 'dotenv';
 dotenv.config();
-
+import cookieParser from 'cookie-parser';
 import express from 'express';
+import cors from 'cors';
 
-import logger from './utils/logger';
-import morganMiddleware from './middleware/morganMiddleware';
+//utils
+import corsOptions from './config/corsOptions';
+import logger from './api/utils/logger';
+//middleware
+import morganMiddleware from './api/middleware/morganMiddleware';
+import errorHandler from './api/middleware/errorHandler';
 
 console.log('server starting...');
 const app = express();
 
 app.use(morganMiddleware);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(cors(corsOptions));
+} else {
+  app.use(cors());
+}
 
 app.get('/api/v1', (req, res) => {
-  res.send('Hello World!');
+  logger.info('Hello world!');
+  res.send('Hello world!');
 });
 
-app.listen(process.env.PORT, () =>
-  console.log(`Server listening on port ${process.env.PORT}!`)
-);
+app.use(errorHandler);
+
+app.listen(process.env.PORT, () => {
+  console.log(`Server listening on port ${process.env.PORT}!`);
+  logger.info(`Server listening on port ${process.env.PORT}!`);
+});
