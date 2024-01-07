@@ -13,6 +13,7 @@ import morganMiddleware from './api/middleware/morganMiddleware';
 import errorHandler from './api/middleware/errorHandler';
 //routes
 import userRoutes from './api/routes/userRoutes';
+import authRoutes from './api/routes/authRoutes';
 
 console.log('server starting...');
 const app = express();
@@ -35,6 +36,7 @@ app.get('/api/v1', (req, res) => {
 });
 
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/auth', authRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

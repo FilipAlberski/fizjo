@@ -6,10 +6,11 @@ import {
   updateUser,
   deleteUser,
 } from '../controllers/userController';
+import loginLimiter from '../middleware/loginLimiter';
 
 //controllers
 router.get('/', getAllUsers);
-router.post('/', createNewUser);
+router.post('/', loginLimiter, createNewUser);
 router.patch('/:id', updateUser);
 router.delete('/:id', deleteUser);
 
