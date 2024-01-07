@@ -12,7 +12,7 @@ import verifyJWT from '../middleware/verifyJWT';
 
 router.post('/login', login);
 router.post('/logout', logout);
-router.post('/refresh', refresh);
+router.get('/refresh', refresh);
 router.post('/register', register);
 
 export default router;

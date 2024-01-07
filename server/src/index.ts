@@ -30,9 +30,9 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 //routes
-app.get('/api/v1', (req, res) => {
-  logger.info('Hello world!');
-  res.send('Hello world!');
+app.get('/api/v1/test', (req, res) => {
+  logger.info('this is a test');
+  res.send('the test was successful');
 });
 
 app.use('/api/v1/users', userRoutes);
