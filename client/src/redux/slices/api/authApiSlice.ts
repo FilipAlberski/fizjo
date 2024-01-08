@@ -1,5 +1,5 @@
 import { apiSlice } from './apiSlice';
-import { logout, setCredentials } from '../authSlice';
+import { logout } from '../authSlice';
 
 //types
 
@@ -27,10 +27,23 @@ export const authApiSlice = apiSlice.injectEndpoints({
         try {
           await queryFulfilled;
           dispatch(logout());
+          dispatch(apiSlice.util.resetApiState());
         } catch (err) {
           console.log(err);
         }
       },
     }),
+    refresh: builder.mutation({
+      query: () => ({
+        url: '/auth/refresh',
+        method: 'GET',
+      }),
+    }),
   }),
 });
+
+export const {
+  useLoginMutation,
+  useLogoutMutation,
+  useRefreshMutation,
+} = authApiSlice;
