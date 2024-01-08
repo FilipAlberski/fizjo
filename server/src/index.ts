@@ -26,7 +26,12 @@ app.use(cookieParser());
 if (process.env.NODE_ENV === 'production') {
   app.use(cors(corsOptions));
 } else {
-  app.use(cors());
+  app.use(
+    cors({
+      origin: 'http://localhost:5173',
+      credentials: true,
+    })
+  );
 }
 
 //routes
