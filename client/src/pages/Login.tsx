@@ -12,7 +12,14 @@ const Login = () => {
   const [password, setPassword] = useState<string>('');
   const [errMsg, setErrMsg] = useState<string>('');
 
-  return <div>Login</div>;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [login, { isLoading }] = useLoginMutation();
+
+  login({ email, password });
+
+  return <div></div>;
 };
 
 export default Login;

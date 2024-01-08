@@ -1,13 +1,9 @@
+import {
+  createApi,
+  fetchBaseQuery,
+} from '@reduxjs/toolkit/query/react';
+import { setCredentials, logout } from '../authSlice';
 import { apiSlice } from './apiSlice';
-import { logout } from '../authSlice';
-
-//types
-
-//data type
-export interface Credentials {
-  email: string;
-  password: string;
-}
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -18,16 +14,19 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body: { ...credentials },
       }),
     }),
-    logout: builder.mutation({
+    sendLogout: builder.mutation({
       query: () => ({
         url: '/auth/logout',
         method: 'POST',
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
-          await queryFulfilled;
+          const { data } = await queryFulfilled;
+          console.log(data);
           dispatch(logout());
-          dispatch(apiSlice.util.resetApiState());
+          setTimeout(() => {
+            dispatch(apiSlice.util.resetApiState());
+          }, 1000);
         } catch (err) {
           console.log(err);
         }
@@ -38,12 +37,22 @@ export const authApiSlice = apiSlice.injectEndpoints({
         url: '/auth/refresh',
         method: 'GET',
       }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          console.log(data);
+          const { accessToken } = data;
+          dispatch(setCredentials({ accessToken }));
+        } catch (err) {
+          console.log(err);
+        }
+      },
     }),
   }),
 });
 
 export const {
   useLoginMutation,
-  useLogoutMutation,
+  useSendLogoutMutation,
   useRefreshMutation,
 } = authApiSlice;
