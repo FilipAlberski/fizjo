@@ -14,12 +14,9 @@ const Login = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [login, { isLoading, error }] = useLoginMutation();
 
-  const [login, { isLoading }] = useLoginMutation();
-
-  login({ email, password });
-
-  return <div></div>;
+  return <div>test</div>;
 };
 
 export default Login;

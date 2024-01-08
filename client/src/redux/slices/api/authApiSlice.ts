@@ -1,11 +1,7 @@
-import {
-  createApi,
-  fetchBaseQuery,
-} from '@reduxjs/toolkit/query/react';
 import { setCredentials, logout } from '../authSlice';
 import { apiSlice } from './apiSlice';
 
-export const authApiSlice = apiSlice.injectEndpoints({
+const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentials) => ({
