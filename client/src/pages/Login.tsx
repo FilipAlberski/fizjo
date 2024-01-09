@@ -47,70 +47,28 @@ const Login = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-200">
-      <div className="m-auto">
-        <form
-          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-          onSubmit={handleSubmit}
+    <div className="flex h-screen justify-center items-center">
+      <form className="form flex flex-col items-center bg-neutral rounded-xl gap-4 p-4">
+        <h1 className="text-3xl text-center mb-7 text-primary">
+          Login
+        </h1>
+        <input
+          type="text"
+          placeholder="email"
+          className="input w-full max-w-xs"
+        />
+        <input
+          type="text"
+          placeholder="password"
+          className="input w-full max-w-xs"
+        />
+        <button
+          type="submit"
+          className="btn btn-primary w-full max-w-xs"
         >
-          <p
-            ref={errRef}
-            className={errMsg ? 'alert alert-error' : 'hidden'}
-          >
-            {errMsg}
-          </p>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <input
-              ref={userRef}
-              id="email"
-              name="email"
-              type="email"
-              required
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="password"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              required
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <button
-              className="btn btn-primary"
-              type="submit"
-              disabled={isLoading}
-            >
-              {isLoading ? 'Logging in...' : 'Login'}
-            </button>
-            <Link
-              to="/register"
-              className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-            >
-              Need an account?
-            </Link>
-          </div>
-        </form>
-      </div>
+          Login
+        </button>
+      </form>
     </div>
   );
 };
