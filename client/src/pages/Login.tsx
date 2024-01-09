@@ -16,34 +16,11 @@ const Login = () => {
   const dispatch = useDispatch();
   const [login, { isLoading, error }] = useLoginMutation();
 
-  useEffect(() => {
-    userRef.current?.focus();
-  }, []);
-
-  useEffect(() => {
-    setErrMsg('');
-  }, [email, password]);
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    try {
-      const userData = await login({ email, password }).unwrap();
-      dispatch(setCredentials({ ...userData }));
-      setEmail('');
-      setPassword('');
-      navigate('/dashboard'); // or wherever you want to redirect after login
-    } catch (err) {
-      if (!err?.originalStatus) {
-        setErrMsg('No Server Response');
-      } else if (err.originalStatus === 400) {
-        setErrMsg('Missing Username or Password');
-      } else if (err.originalStatus === 401) {
-        setErrMsg('Unauthorized');
-      } else {
-        setErrMsg('Login Failed');
-      }
-      errRef.current?.focus();
-    }
+    console.log('login');
+    //pass and email
+    console.log(email, password);
   };
 
   return (
@@ -56,15 +33,20 @@ const Login = () => {
           type="text"
           placeholder="email"
           className="input w-full max-w-xs"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <input
-          type="text"
+          type="password"
           placeholder="password"
           className="input w-full max-w-xs"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <button
           type="submit"
           className="btn btn-primary w-full max-w-xs"
+          onClick={handleSubmit}
         >
           Login
         </button>
