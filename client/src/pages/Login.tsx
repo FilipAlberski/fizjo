@@ -6,11 +6,8 @@ import { useLoginMutation } from '../redux/slices/api/authApiSlice';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
-  const userRef = useRef(null);
-  const errRef = useRef(null);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errMsg, setErrMsg] = useState('');
+  const [email, setEmail] = useState(''); //to change the function of tracking input
+  const [password, setPassword] = useState(''); //to change the function of tracking input
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -18,9 +15,18 @@ const Login = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log('login');
-    //pass and email
-    console.log(email, password);
+    try {
+      const { accessToken } = await login({
+        email,
+        password,
+      }).unwrap();
+      dispatch(setCredentials(accessToken));
+      setEmail('');
+      setPassword('');
+      navigate('/dashboard');
+    } catch (error) {
+      console.log(error); //change to error handling on frontend
+    }
   };
 
   return (
