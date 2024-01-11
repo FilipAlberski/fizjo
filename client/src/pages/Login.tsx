@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../redux/slices/authSlice';
 import { useLoginMutation } from '../redux/slices/api/authApiSlice';
-import { setAlert, clearAlert } from '../redux/slices/alertSlice';
+
 import { Link } from 'react-router-dom';
+
+import { set5SecAlertAction } from '../redux/actions/alertActions';
 
 const Login = () => {
   const [email, setEmail] = useState(''); //to change the function of tracking input
@@ -15,18 +17,6 @@ const Login = () => {
   const [login, { isLoading, error }] = useLoginMutation();
 
   //set test alert for 5 seconds
-
-  useEffect(() => {
-    dispatch(
-      setAlert({
-        message: 'test alert',
-        type: 'success',
-      })
-    );
-    setTimeout(() => {
-      dispatch(clearAlert());
-    }, 5000);
-  }, []);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -40,7 +30,7 @@ const Login = () => {
       setPassword('');
       navigate('/dashboard');
     } catch (error) {
-      console.log(error); //change to error handling on frontend
+      dispatch(set5SecAlertAction(error.data.message, 'error'));
     }
   };
 

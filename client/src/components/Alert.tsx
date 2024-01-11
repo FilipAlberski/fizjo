@@ -20,7 +20,7 @@ const Alert = () => {
   if (message) {
     return (
       <div
-        className={`alert alert-${type} absolute w-80 top-6 left-6`}
+        className={`alert alert-${type} absolute w-80 top-6 left-6 z-50`}
       >
         <p>{message}</p>
       </div>
