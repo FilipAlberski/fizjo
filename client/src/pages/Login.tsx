@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../redux/slices/authSlice';
 import { useLoginMutation } from '../redux/slices/api/authApiSlice';
-import { setAlert } from '../redux/slices/alertSlice';
+import { setAlert, clearAlert } from '../redux/slices/alertSlice';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
@@ -14,15 +14,18 @@ const Login = () => {
   const dispatch = useDispatch();
   const [login, { isLoading, error }] = useLoginMutation();
 
-  //set test alert
+  //set test alert for 5 seconds
 
   useEffect(() => {
     dispatch(
       setAlert({
-        message: 'This is a test alert',
+        message: 'test alert',
         type: 'success',
       })
     );
+    setTimeout(() => {
+      dispatch(clearAlert());
+    }, 5000);
   }, []);
 
   const handleSubmit = async (e: any) => {

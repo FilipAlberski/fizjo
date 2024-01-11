@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 interface IAlertState {
   alert: {
-    message: string;
+    message: string; // success, error, info, warning
     type: string;
   };
 }
@@ -19,7 +19,9 @@ const Alert = () => {
 
   if (message) {
     return (
-      <div className={`alert alert-${type} absolute`}>
+      <div
+        className={`alert alert-${type} absolute w-80 top-6 left-6`}
+      >
         <p>{message}</p>
       </div>
     );
