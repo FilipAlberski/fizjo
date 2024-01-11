@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../redux/slices/authSlice';
 import { useLoginMutation } from '../redux/slices/api/authApiSlice';
+import { setAlert } from '../redux/slices/alertSlice';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
@@ -12,6 +13,17 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [login, { isLoading, error }] = useLoginMutation();
+
+  //set test alert
+
+  useEffect(() => {
+    dispatch(
+      setAlert({
+        message: 'This is a test alert',
+        type: 'success',
+      })
+    );
+  }, []);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
