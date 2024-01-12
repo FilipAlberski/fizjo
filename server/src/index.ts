@@ -3,14 +3,17 @@ dotenv.config();
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 
 //utils
 import corsOptions from './config/corsOptions';
 import logger from './api/utils/logger';
 import notFound from './api/utils/notFound';
+
 //middleware
 import morganMiddleware from './api/middleware/morganMiddleware';
 import errorHandler from './api/middleware/errorHandler';
+
 //routes
 import userRoutes from './api/routes/userRoutes';
 import authRoutes from './api/routes/authRoutes';
@@ -22,6 +25,7 @@ const app = express();
 app.use(morganMiddleware);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(helmet());
 app.use(cookieParser());
 if (process.env.NODE_ENV === 'production') {
   app.use(cors(corsOptions));
