@@ -5,8 +5,7 @@ import { setCredentials } from '../redux/slices/authSlice';
 import { useLoginMutation } from '../redux/slices/api/authApiSlice';
 
 import { Link } from 'react-router-dom';
-
-import { set5SecAlertAction } from '../redux/actions/alertActions';
+import { addAlert } from '../redux/slices/alertSlice';
 
 const Login = () => {
   const [email, setEmail] = useState(''); //to change the function of tracking input
@@ -30,12 +29,17 @@ const Login = () => {
       setPassword('');
       navigate('/dashboard');
     } catch (error) {
-      dispatch(set5SecAlertAction(error.data.message, 'error'));
+      dispatch(
+        addAlert({
+          message: error.data.message,
+          type: error.data.type || 'error',
+        })
+      );
     }
   };
 
   return (
-    <div className="flex h-screen justify-center items-center">
+    <div className="flex h-screen justify-center items-center overflow-y-hidden">
       <form className="form flex flex-col items-center bg-neutral rounded-xl gap-4 p-4">
         <h1 className="text-3xl text-center mb-7 text-primary">
           Login

@@ -1,23 +1,36 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+interface Alert {
+  id: number;
+  message: string;
+  type: string;
+}
+
+interface AlertState {
+  alerts: Alert[];
+}
+
+const initialState: AlertState = {
+  alerts: [],
+};
+
+let nextAlertId = 0;
 
 const alertSlice = createSlice({
   name: 'alert',
-  initialState: {
-    message: null,
-    type: null,
-  },
+  initialState,
   reducers: {
-    setAlert: (state, action) => {
-      state.message = action.payload.message;
-      state.type = action.payload.type;
+    addAlert: (state, action: PayloadAction<Omit<Alert, 'id'>>) => {
+      state.alerts.push({ id: nextAlertId++, ...action.payload });
     },
-    clearAlert: (state) => {
-      state.message = null;
-      state.type = null;
+    removeAlert: (state, action: PayloadAction<number>) => {
+      state.alerts = state.alerts.filter(
+        (alert) => alert.id !== action.payload
+      );
     },
   },
 });
 
-export const { setAlert, clearAlert } = alertSlice.actions;
+export const { addAlert, removeAlert } = alertSlice.actions;
 
 export default alertSlice.reducer;
