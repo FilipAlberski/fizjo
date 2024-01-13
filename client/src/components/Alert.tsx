@@ -90,9 +90,17 @@ const Alert = () => {
           <p>{alert.message}</p>
           <progress
             className="progress progress-primary w-full"
-            value={500}
-            max="5000"
+            value={progressValues[alert.id] || 0}
+            max="100"
           ></progress>
+          {hoveredAlert === alert.id && (
+            <button
+              onClick={() => dispatch(removeAlert(alert.id))}
+              className="close-btn"
+            >
+              Close
+            </button>
+          )}
         </div>
       ))}
     </div>
