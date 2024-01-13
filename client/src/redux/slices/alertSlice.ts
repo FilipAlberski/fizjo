@@ -4,6 +4,7 @@ interface Alert {
   id: number;
   message: string;
   type: string;
+  howLong?: number;
 }
 
 interface AlertState {

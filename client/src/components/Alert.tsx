@@ -1,9 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeAlert } from '../redux/slices/alertSlice';
-
-//TODO: nie dziala hover na alertach, trzymanie myszy na alercie nie sprawia ze sie nie zamyka
-//TODO: dodac linear loading bar na dole kazdego alertu ktory sie zamyka po 5 sekundach
 
 interface IAlertState {
   alert: {
@@ -11,7 +8,7 @@ interface IAlertState {
       id: number;
       message: string;
       type: string;
-      delay?: number; // Make delay optional
+      delay?: number;
     }[];
   };
 }
@@ -22,35 +19,63 @@ const Alert = () => {
     (state: IAlertState) => state.alert.alerts
   );
   const alertTimeouts = useRef<{ [key: number]: NodeJS.Timeout }>({});
+  const [hoveredAlert, setHoveredAlert] = useState<number | null>(
+    null
+  );
+  const [progressValues, setProgressValues] = useState<{
+    [key: number]: number;
+  }>({});
+
+  const updateProgress = (alertId: number, delay: number) => {
+    const interval = 50; // Update every 50 ms
+    const increment = (interval / delay) * 100;
+    let progress = 0;
+
+    const intervalId = setInterval(() => {
+      progress += increment;
+      setProgressValues((prevValues) => ({
+        ...prevValues,
+        [alertId]: Math.min(progress, 100),
+      }));
+    }, interval);
+
+    return intervalId;
+  };
 
   const removeAlertWithDelay = (
     alertId: number,
     delay: number = 5000
   ) => {
-    // Default delay of 5000
-    clearTimeout(alertTimeouts.current[alertId]); // Clear existing timeout
+    clearTimeout(alertTimeouts.current[alertId]);
+    const intervalId = updateProgress(alertId, delay);
+
     alertTimeouts.current[alertId] = setTimeout(() => {
-      dispatch(removeAlert(alertId));
+      clearInterval(intervalId); // Clear progress interval
+      if (hoveredAlert !== alertId) {
+        dispatch(removeAlert(alertId));
+      }
     }, delay);
   };
 
   useEffect(() => {
     alerts.forEach((alert) => {
-      removeAlertWithDelay(alert.id, alert.delay); // Use the alert's delay or default
+      removeAlertWithDelay(alert.id, alert.delay);
     });
-
-    // Cleanup timeouts on unmount
     return () => {
       Object.values(alertTimeouts.current).forEach(clearTimeout);
+      Object.values(progressValues).forEach(clearInterval);
     };
-  }, [alerts, dispatch]);
+  }, [alerts, dispatch, hoveredAlert, progressValues]);
 
   const handleMouseEnter = (alertId: number) => {
-    clearTimeout(alertTimeouts.current[alertId]); // Pause timeout on hover
+    setHoveredAlert(alertId);
+    clearTimeout(alertTimeouts.current[alertId]);
+    clearInterval(progressValues[alertId]);
   };
 
   const handleMouseLeave = (alertId: number, delay?: number) => {
-    removeAlertWithDelay(alertId, delay); // Restart timeout on mouse leave
+    setHoveredAlert(null);
+    removeAlertWithDelay(alertId, delay);
   };
 
   return (
@@ -58,16 +83,24 @@ const Alert = () => {
       {alerts.map((alert) => (
         <div
           key={alert.id}
-          className={`alert alert-${alert.type}`}
+          className={`alert alert-${alert.type} flex `}
           onMouseEnter={() => handleMouseEnter(alert.id)}
           onMouseLeave={() => handleMouseLeave(alert.id, alert.delay)}
         >
-          <p>{alert.message}</p>
+          <div>
+            <p>{alert.message}</p>
+            <progress
+              className="progress progress-primary w-full"
+              value={progressValues[alert.id] || 0}
+              max="100"
+            ></progress>
+          </div>
+
           <button
             onClick={() => dispatch(removeAlert(alert.id))}
             className="close-btn"
           >
-            Close
+            X
           </button>
         </div>
       ))}
