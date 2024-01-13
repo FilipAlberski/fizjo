@@ -83,25 +83,16 @@ const Alert = () => {
       {alerts.map((alert) => (
         <div
           key={alert.id}
-          className={`alert alert-${alert.type} flex `}
+          className={`alert alert-${alert.type} flex flex-col gap-2`}
           onMouseEnter={() => handleMouseEnter(alert.id)}
           onMouseLeave={() => handleMouseLeave(alert.id, alert.delay)}
         >
-          <div>
-            <p>{alert.message}</p>
-            <progress
-              className="progress progress-primary w-full"
-              value={progressValues[alert.id] || 0}
-              max="100"
-            ></progress>
-          </div>
-
-          <button
-            onClick={() => dispatch(removeAlert(alert.id))}
-            className="close-btn"
-          >
-            X
-          </button>
+          <p>{alert.message}</p>
+          <progress
+            className="progress progress-primary w-full"
+            value={500}
+            max="5000"
+          ></progress>
         </div>
       ))}
     </div>
