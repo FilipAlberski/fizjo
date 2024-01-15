@@ -8,7 +8,6 @@ interface IAlertState {
       id: number;
       message: string;
       type: string;
-    
     }[];
   };
 }
@@ -18,7 +17,7 @@ const Alert = () => {
   const alerts = useSelector(
     (state: IAlertState) => state.alert.alerts
   );
- 
+
   return (
     <div className="absolute w-80 top-0 left-0 m-4 z-50 flex flex-col gap-3 max-h-screen overflow-hidden">
       {alerts.map((alert) => (
@@ -33,8 +32,8 @@ const Alert = () => {
           >
             X
           </button>
-
-      
+        </div>
+      ))}
     </div>
   );
 };
