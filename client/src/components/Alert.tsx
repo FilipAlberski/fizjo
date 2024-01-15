@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeAlert } from '../redux/slices/alertSlice';
+import { IoClose } from 'react-icons/io5';
 
 interface IAlertState {
   alert: {
@@ -19,19 +20,22 @@ const Alert = () => {
   );
 
   return (
-    <div className="absolute w-80 top-0 left-0 m-4 z-50 flex flex-col gap-3 max-h-screen overflow-hidden">
+    <div className="absolute top-0 left-0 p-4 z-50 flex flex-col gap-3 max-h-screen overflow-hidden">
       {alerts.map((alert) => (
         <div
-          key={alert.id}
-          className={`bg-${alert.type}-400 text-white text-center py-2 px-4 rounded`}
+          className={`rounded-xl p-3 pt-2 alert alert-${alert.type} flex flex-col gap-1`}
         >
-          {alert.message}
-          <button
-            className="float-right"
-            onClick={() => dispatch(removeAlert(alert.id))}
-          >
-            X
-          </button>
+          <div key={alert.id} className={`flex`}>
+            {alert.message}
+            <button onClick={() => dispatch(removeAlert(alert.id))}>
+              <IoClose size={25} className="text-primary" />
+            </button>
+          </div>
+          <progress
+            className="progress w-full"
+            value="40"
+            max="100"
+          ></progress>
         </div>
       ))}
     </div>
