@@ -9,6 +9,7 @@ interface IAlertState {
       id: number;
       message: string;
       type: string;
+      howLong: number;
     }[];
   };
 }

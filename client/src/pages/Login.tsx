@@ -17,7 +17,7 @@ const Login = () => {
 
   //set test alert for 5 seconds
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { accessToken } = await login({
@@ -28,11 +28,13 @@ const Login = () => {
       setEmail('');
       setPassword('');
       navigate('/dashboard');
-    } catch (error) {
+    } catch (error: any) {
       dispatch(
         addAlert({
+          id: 1, // Add the required 'id' property
+          type: 'error',
           message: error.data.message,
-          type: error.data.type || 'error',
+          howLong: 5000,
         })
       );
     }
