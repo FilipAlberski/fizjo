@@ -3,8 +3,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface Alert {
   id: number;
   message: string;
-  type: string;
-  howLong?: number;
+  type: string; // You can specify the type of the alert (e.g., 'success', 'error', 'info', etc.)
+  howLong?: number; // Optional duration in milliseconds for the alert to auto-dismiss
 }
 
 interface AlertState {
@@ -21,8 +21,13 @@ const alertSlice = createSlice({
   name: 'alert',
   initialState,
   reducers: {
-    addAlert: (state, action: PayloadAction<Omit<Alert, 'id'>>) => {
-      state.alerts.push({ id: nextAlertId++, ...action.payload });
+    addAlert: (state, action: PayloadAction<Alert>) => {
+      state.alerts.push({
+        id: nextAlertId++,
+        message: action.payload.message,
+        type: action.payload.type,
+        howLong: action.payload.howLong || 5000,
+      });
     },
     removeAlert: (state, action: PayloadAction<number>) => {
       state.alerts = state.alerts.filter(
