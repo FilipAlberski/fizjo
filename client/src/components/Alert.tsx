@@ -1,4 +1,3 @@
-import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeAlert } from '../redux/slices/alertSlice';
 import { IoClose } from 'react-icons/io5';
@@ -26,8 +25,12 @@ const Alert = () => {
         <div
           className={`rounded-xl p-3 pt-2 alert alert-${alert.type} flex flex-col gap-1`}
         >
-          <div key={alert.id} className={`flex`}>
-            {alert.message}
+          <div
+            key={alert.id}
+            className={`flex w-full justify-between min-w-80`}
+          >
+            <div className="max-w-70">{alert.message}</div>
+
             <button onClick={() => dispatch(removeAlert(alert.id))}>
               <IoClose size={25} className="text-primary" />
             </button>
