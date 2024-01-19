@@ -2,6 +2,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { removeAlert } from '../redux/slices/alertSlice';
 import { IoClose } from 'react-icons/io5';
 
+//test commit
+
 interface IAlertState {
   alert: {
     alerts: {
