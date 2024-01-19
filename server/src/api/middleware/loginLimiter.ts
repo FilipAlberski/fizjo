@@ -2,17 +2,15 @@ import rateLimit from 'express-rate-limit';
 import logger from '../utils/logger';
 
 const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // limit each IP to 5 requests per windowMs
-  message:
-    'Too many login attempts, please try again after 15 minutes',
-  handler: (req, res, options) => {
-    logger.warn(
-      `Too many login attempts from ${req.ip} at ${req.originalUrl}`
-    );
+  windowMs: 60 * 1000 * 5,
+  max: 5,
+  message: 'Too many login attempts, please try again later.',
+  handler: (req, res) => {
+    logger.warn(`Too many login attempts from ${req.ip}`);
+    res
+      .status(429)
+      .send('Too many login attempts, please try again later.');
   },
   standardHeaders: true,
   legacyHeaders: false,
 });
-
-export default loginLimiter;
