@@ -31,7 +31,7 @@ const Login = () => {
     } catch (error: any) {
       dispatch(
         addAlert({
-          id: 1, // Add the required 'id' property
+          id: 1,
           type: 'error',
           message: error.data.message,
           howLong: 5000,
