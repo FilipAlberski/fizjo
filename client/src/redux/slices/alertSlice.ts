@@ -3,8 +3,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface Alert {
   id: number;
   message: string;
-  type: string; // You can specify the type of the alert (e.g., 'success', 'error', 'info', etc.)
-  howLong?: number; // Optional duration in milliseconds for the alert to auto-dismiss
+  type: string;
+  howLong?: number;
 }
 
 interface Alert {
