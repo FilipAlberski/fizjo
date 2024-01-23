@@ -1,9 +1,14 @@
 // utils/logger.ts
 
-//TODO: repair file writing
-
 import winston, { format } from 'winston';
+import fs from 'fs';
 import path from 'path';
+
+// Ensure log directory exists
+const logDir = path.join(__dirname, '..', 'logs');
+if (!fs.existsSync(logDir)) {
+  fs.mkdirSync(logDir, { recursive: true });
+}
 
 const levels = {
   error: 0,
@@ -37,15 +42,15 @@ const logger = winston.createLogger({
   format: logFormat,
   transports: [
     new winston.transports.File({
-      filename: path.join(__dirname, '..', 'logs', 'http.log'),
+      filename: path.join(logDir, 'http.log'),
       level: 'http',
     }),
     new winston.transports.File({
-      filename: path.join(__dirname, '..', 'logs', 'error.log'),
+      filename: path.join(logDir, 'error.log'),
       level: 'error',
     }),
     new winston.transports.File({
-      filename: path.join(__dirname, '..', 'logs', 'combined.log'),
+      filename: path.join(logDir, 'combined.log'),
     }),
   ],
 });
@@ -54,7 +59,7 @@ if (process.env.NODE_ENV !== 'production') {
   logger.add(
     new winston.transports.Console({
       format: format.combine(format.colorize(), format.simple()),
-      level: 'http',
+      level: 'debug', // Changed to 'debug' to see more verbose logging during development
     })
   );
 }
