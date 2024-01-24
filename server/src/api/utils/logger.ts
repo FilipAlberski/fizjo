@@ -1,10 +1,7 @@
-// utils/logger.ts
-
 import winston, { format } from 'winston';
 import fs from 'fs';
 import path from 'path';
 
-// Ensure log directory exists
 const logDir = path.join(__dirname, '..', 'logs');
 if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir, { recursive: true });
@@ -59,7 +56,7 @@ if (process.env.NODE_ENV !== 'production') {
   logger.add(
     new winston.transports.Console({
       format: format.combine(format.colorize(), format.simple()),
-      level: 'debug', // Changed to 'debug' to see more verbose logging during development
+      level: 'debug',
     })
   );
 }

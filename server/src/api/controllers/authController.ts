@@ -48,7 +48,7 @@ const login = asyncHandler(
         },
         process.env.ACCESS_TOKEN_SECRET as string,
         {
-          expiresIn: '10s',
+          expiresIn: '10m',
         }
       );
 

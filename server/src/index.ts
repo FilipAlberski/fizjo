@@ -5,6 +5,8 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 
+import verifyJWT from './api/middleware/verifyJWT';
+
 //utils
 import corsOptions from './config/corsOptions';
 import logger from './api/utils/logger';
@@ -40,6 +42,11 @@ if (process.env.NODE_ENV === 'production') {
 
 //routes
 app.get('/api/v1/test', (req, res) => {
+  logger.info('this is a test');
+  res.send('the test was successful');
+});
+//test protected route
+app.get('/api/v1/protected', verifyJWT, (req, res) => {
   logger.info('this is a test');
   res.send('the test was successful');
 });
