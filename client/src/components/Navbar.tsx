@@ -1,7 +1,12 @@
 import React from 'react';
+import LogoutButton from './LogoutButton';
 
 const Navbar = () => {
-  return <div>Navbar</div>;
+  return (
+    <div>
+      <LogoutButton />
+    </div>
+  );
 };
 
 export default Navbar;
