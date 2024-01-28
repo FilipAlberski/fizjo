@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import sendMail from './api/utils/sendMail';
 
 import verifyJWT from './api/middleware/verifyJWT';
 
