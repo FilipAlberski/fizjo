@@ -48,7 +48,7 @@ app.get('/api/v1/test', (req, res) => {
 //test protected route
 app.get('/api/v1/protected', verifyJWT, (req, res) => {
   logger.info('this is a test');
-  res.send('the test was successful');
+  res.send('the protected test was successful');
 });
 
 app.use('/api/v1/users', userRoutes);
